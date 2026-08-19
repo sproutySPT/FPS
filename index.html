@@ -1034,7 +1034,7 @@
       aiBarInner.style.width=Math.max(0,enemy.hp/enemy.maxHp*100)+'%';
       if(enemy.hp<=0){
         awardStyleKill(enemy,meta); kills++; score+=1800; scoreEl.textContent=score; killsEl.textContent=kills; playHit();
-        addGold(120,'AI전 승리'); aiBattle.enemy=null; gameActive=false; firing=false; aiBanner.textContent='AI 처치 완료';
+        addGold(120,'AI전 승리'); scene.remove(enemy.mesh); aiBattle.enemy=null; gameActive=false; firing=false; aiBanner.textContent='AI 처치 완료';
         showBanner('AI DOWN',1800); goStats.textContent=`AI전 승리 · 점수 ${score} · 처치 ${kills} · 획득 골드 +${sessionGoldEarned}`;
         setTimeout(()=>{ if(!gameActive && gameMode==='ai') gameOverOverlay.classList.remove('hidden'); },500);
       }
@@ -2050,8 +2050,9 @@
     [-7,-28,-49,-69].forEach(z=>{const m=new THREE.Mesh(laneGeo,lineMat.clone());m.position.set(0,.026,z);aiDecor.add(m);});
     const ringMat=new THREE.MeshBasicMaterial({color:0x78ffbd,transparent:true,opacity:.22});
     const ring=new THREE.Mesh(new THREE.RingGeometry(6.6,6.72,64),ringMat); ring.rotation.x=-Math.PI/2; ring.position.set(0,.035,-26); aiDecor.add(ring);
-    const beaconMat=new THREE.MeshStandardMaterial({color:0x1a252d,roughness:.45,metalness:.5,emissive:0x031016});
-    [[-20,-8],[20,-8],[-20,-62],[20,-62]].forEach(([x,z])=>{const base=new THREE.Mesh(new THREE.CylinderGeometry(.35,.48,.35,12),beaconMat);base.position.set(x,.18,z);base.castShadow=true;aiDecor.add(base);const glow=new THREE.Mesh(new THREE.SphereGeometry(.11,10,10),new THREE.MeshBasicMaterial({color:0x5ce8ff}));glow.position.set(x,.55,z);aiDecor.add(glow);});
+    const beaconMat=new THREE.MeshStandardMaterial({color:0x1a252d,roughness:.45,metalness:.5,emissive:0x0a2830});
+    const beaconPoleMat=new THREE.MeshStandardMaterial({color:0x141c20,roughness:.5,metalness:.4});
+    [[-20,-8],[20,-8],[-20,-62],[20,-62]].forEach(([x,z])=>{const base=new THREE.Mesh(new THREE.CylinderGeometry(.35,.48,.35,12),beaconMat);base.position.set(x,.18,z);base.castShadow=true;aiDecor.add(base);const pole=new THREE.Mesh(new THREE.CylinderGeometry(.05,.06,.32,8),beaconPoleMat);pole.position.set(x,.51,z);pole.castShadow=true;aiDecor.add(pole);const glow=new THREE.Mesh(new THREE.SphereGeometry(.14,10,10),new THREE.MeshBasicMaterial({color:0x5ce8ff}));glow.position.set(x,.72,z);aiDecor.add(glow);});
     const coverMat=new THREE.MeshStandardMaterial({color:0x4b5961,roughness:.76,metalness:.22});
     const coverAccent=new THREE.MeshStandardMaterial({color:0x263b45,roughness:.6,metalness:.3,emissive:0x061218});
     const coverData=[[-12,-10,4,3,7],[12,-14,4,2.8,6],[-7,2,5,2.6,3],[8,4,5,3,4],[0,-22,6,3.6,3],[-18,-30,5,2.4,8],[18,-33,5,2.4,8],[-3,-40,4,4.2,5],[12,-52,5,2.8,4],[-12,-55,5,2.8,4],[0,-68,8,3,5]];
